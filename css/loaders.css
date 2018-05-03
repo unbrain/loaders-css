@@ -124,6 +124,10 @@
           animation-fill-mode: both;
   display: inline-block; }
 
+/* 一个淡出加载效果
+ * 修改大小缩放从 从 0 到 1
+ * 修改透明度从 ０ 到 １
+ */
 @-webkit-keyframes ball-scale {
   0% {
     -webkit-transform: scale(0);
@@ -143,7 +147,7 @@
     opacity: 0; } }
 
 .ball-scale > div {
-  background-color: #fff;
+  background-color: #000;
   width: 15px;
   height: 15px;
   border-radius: 100%;
@@ -155,35 +159,16 @@
   width: 60px;
   -webkit-animation: ball-scale 1s 0s ease-in-out infinite;
           animation: ball-scale 1s 0s ease-in-out infinite; }
-
-@keyframes ball-scale {
-  0% {
-    -webkit-transform: scale(0);
-            transform: scale(0); }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    opacity: 0; } }
-
-.ball-scale > div {
-  background-color: #fff;
-  width: 15px;
-  height: 15px;
-  border-radius: 100%;
-  margin: 2px;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
-  display: inline-block;
-  height: 60px;
-  width: 60px;
-  -webkit-animation: ball-scale 1s 0s ease-in-out infinite;
-          animation: ball-scale 1s 0s ease-in-out infinite; }
-
+/* 一个多球淡出加载效果
+ * animation name 与上一个相同 只是增加延时来形成视觉差
+ * 若觉的 div 太多 其实都能用 ：after ：before 来实现 
+ */
 .ball-scale-random {
   width: 37px;
-  height: 40px; }
+  height: 40px; 
+}
   .ball-scale-random > div {
-    background-color: #fff;
+    background-color: #000;
     width: 15px;
     height: 15px;
     border-radius: 100%;
@@ -216,7 +201,10 @@
   100% {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); } }
-
+/* 一个球旋转加载效果
+ * animation 旋转 360 
+ * 用一个 div 展示出 3 个球
+ */
 @keyframes rotate {
   0% {
     -webkit-transform: rotate(0deg);

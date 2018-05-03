@@ -1,6 +1,6 @@
 # [loaders.css](https://github.com/ConnorAtherton/loaders.css) 源码解读
 
-`loader.css` 有许多的动态效果，我打算解读一下来深入对 `CSS` 的了解
+`loader.css` 有许多的加载动态效果，我打算解读一下来深入对 `CSS` 的了解
 
 [样式预览](https://unbrain.github.io/loaders-css/index.html)
 
@@ -20,7 +20,10 @@
     opacity: 1; }
 ```
 
+---
+
 ## 球脉冲
+
 - 一个球缩小放大加载效果
 - infinite 无限循环
 - animation-fill-mode  这个 CSS 属性用来指定在动画执行之前和之后如何给动画的目标应用样式。其实我把它注释后没变化。
@@ -28,7 +31,7 @@
 
 ---
 
-知识点：
+### 知识点：
 
 1. [transform](https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform)
 2. [animation](https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation)
@@ -68,6 +71,8 @@
   animation-fill-mode: both;
   display: inline-block; }
 ```
+
+---
 
 ## 弹跳加载
 
@@ -115,26 +120,18 @@
 
 ---
 
-### 还未看
+## 淡出
+
+- 一个淡出加载效果
+- 修改大小缩放从 从 0 到 1
+- 修改透明度从 ０ 到 １
 
 ```css
-
-@-webkit-keyframes ball-scale {
-  0% {
-    -webkit-transform: scale(0);
-            transform: scale(0); }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    opacity: 0; } }
-
 @keyframes ball-scale {
   0% {
-    -webkit-transform: scale(0);
-            transform: scale(0); }
+    transform: scale(0); }
   100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
     opacity: 0; } }
 
 .ball-scale > div {
@@ -143,101 +140,89 @@
   height: 15px;
   border-radius: 100%;
   margin: 2px;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
+  animation-fill-mode: both;
   display: inline-block;
   height: 60px;
   width: 60px;
-  -webkit-animation: ball-scale 1s 0s ease-in-out infinite;
-          animation: ball-scale 1s 0s ease-in-out infinite; }
+  animation: ball-scale 1s 0s ease-in-out infinite; }
+```
 
-@keyframes ball-scale {
-  0% {
-    -webkit-transform: scale(0);
-            transform: scale(0); }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    opacity: 0; } }
+---
 
-.ball-scale > div {
-  background-color: #fff;
-  width: 15px;
-  height: 15px;
-  border-radius: 100%;
-  margin: 2px;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
-  display: inline-block;
-  height: 60px;
-  width: 60px;
-  -webkit-animation: ball-scale 1s 0s ease-in-out infinite;
-          animation: ball-scale 1s 0s ease-in-out infinite; }
+## 多球淡出
 
+- 一个多球淡出加载效果
+- animation name 与上一个相同 只是增加延时来形成视觉差
+- 若觉的 div 太多 其实都能用 ：after ：before 来实现 
+
+```css
 .ball-scale-random {
   width: 37px;
   height: 40px; }
-  .ball-scale-random > div {
+
+.ball-scale-random > div {
     background-color: #fff;
     width: 15px;
     height: 15px;
     border-radius: 100%;
     margin: 2px;
-    -webkit-animation-fill-mode: both;
-            animation-fill-mode: both;
+    animation-fill-mode: both;
     position: absolute;
     display: inline-block;
     height: 30px;
     width: 30px;
-    -webkit-animation: ball-scale 1s 0s ease-in-out infinite;
-            animation: ball-scale 1s 0s ease-in-out infinite; }
-    .ball-scale-random > div:nth-child(1) {
-      margin-left: -7px;
-      -webkit-animation: ball-scale 1s 0.2s ease-in-out infinite;
-              animation: ball-scale 1s 0.2s ease-in-out infinite; }
-    .ball-scale-random > div:nth-child(3) {
-      margin-left: -2px;
-      margin-top: 9px;
-      -webkit-animation: ball-scale 1s 0.5s ease-in-out infinite;
-              animation: ball-scale 1s 0.5s ease-in-out infinite; }
+    animation: ball-scale 1s 0s ease-in-out infinite; }
 
-@-webkit-keyframes rotate {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
-  50% {
-    -webkit-transform: rotate(180deg);
-            transform: rotate(180deg); }
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg); } }
+.ball-scale-random > div:nth-child(1) {
+  margin-left: -7px;
+  animation: ball-scale 1s 0.2s ease-in-out infinite; }
 
+.ball-scale-random > div:nth-child(3) {
+  margin-left: -2px;
+  margin-top: 9px;
+  animation: ball-scale 1s 0.5s ease-in-out infinite; }
+```
+
+---
+
+## 球旋转
+
+- 一个球旋转加载效果
+- animation 旋转 360
+- 用一个 div 展示出 3 个球
+
+---
+
+### 知识点
+
+1. [:after](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::after)
+2. [:before](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::before)
+
+```css
 @keyframes rotate {
   0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
+    transform: rotate(0deg); }
   50% {
-    -webkit-transform: rotate(180deg);
-            transform: rotate(180deg); }
+    transform: rotate(180deg); }
   100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg); } }
+    transform: rotate(360deg); } }
 
 .ball-rotate {
   position: relative; }
-  .ball-rotate > div {
+
+ .ball-rotate > div {
     background-color: #fff;
     width: 15px;
     height: 15px;
     border-radius: 100%;
     margin: 2px;
-    -webkit-animation-fill-mode: both;
-            animation-fill-mode: both;
+    animation-fill-mode: both;
     position: relative; }
-    .ball-rotate > div:first-child {
-      -webkit-animation: rotate 1s 0s cubic-bezier(0.7, -0.13, 0.22, 0.86) infinite;
-              animation: rotate 1s 0s cubic-bezier(0.7, -0.13, 0.22, 0.86) infinite; }
-    .ball-rotate > div:before, .ball-rotate > div:after {
+
+.ball-rotate > div:first-child {
+      animation: rotate 1s 0s cubic-bezier(0.7, -0.13, 0.22, 0.86) infinite; }
+
+.ball-rotate > div:before, .ball-rotate > div:after {
       background-color: #fff;
       width: 15px;
       height: 15px;
@@ -246,13 +231,22 @@
       content: "";
       position: absolute;
       opacity: 0.8; }
-    .ball-rotate > div:before {
+
+.ball-rotate > div:before {
       top: 0px;
       left: -28px; }
-    .ball-rotate > div:after {
+
+.ball-rotate > div:after {
       top: 0px;
       left: 25px; }
+/*很尴尬的就是在　loaders.css 中有重名的　@keyframes,会有事分析与看到的不一致,就比如在下一个就有另一个 rotate 的　@keyframes*/
+```
 
+
+
+### 还未看
+
+```css
 @keyframes rotate {
   0% {
     -webkit-transform: rotate(0deg) scale(1);
