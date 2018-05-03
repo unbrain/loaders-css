@@ -1,0 +1,17 @@
+*{
+    margin: 0px;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.scalediv{
+    width: 100px;
+    height: 100px;
+    background: burlywood;
+    animation: scale 1s infinite ease-in-out;
+}
