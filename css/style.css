@@ -9,9 +9,3 @@ body{
     justify-content: center;
     align-items: center;
 }
-.scalediv{
-    width: 100px;
-    height: 100px;
-    background: burlywood;
-    animation: scale 1s infinite ease-in-out;
-}

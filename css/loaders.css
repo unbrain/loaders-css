@@ -1,63 +1,66 @@
-# [loaders.css](https://github.com/ConnorAtherton/loaders.css) 源码解读
+/**
+ *
+ * All animations must live in their own file
+ * in the animations directory and be included
+ * here.
+ *
+ */
+/**
+ * Styles shared by multiple animations
+ */
+/**
+ * Dots
+ */
 
-`loader.css` 有许多的动态效果，我打算解读一下来深入对 `CSS` 的了解
-
-[样式预览](https://unbrain.github.io/loaders-css/index.html)
-
-对兼容性的代码大多已删除，只留在重要部分。
-
-例如：
-
-```css
-/* 原本是：*/
-0% {
+ /* 制作一个缩放后恢复的渐变 
+ * 球脉冲
+ * 一个加载效果
+ * infinite 无限循环
+ * animation-fill-mode  这个 CSS 属性用来指定在动画执行之前和之后如何给动画的目标应用样式。其实我把它注释后没变化。
+ * cubic-bezier 又称三次贝塞尔，主要是为 animation 生成速度曲线的函数 
+ */
+@-webkit-keyframes scale {
+  0% {
     -webkit-transform: scale(1);
             transform: scale(1);
     opacity: 1; }
-/* 修改为：*/
-0% {
-    transform: scale(1);
-    opacity: 1; }
-```
-
-## 球脉冲
-- 一个球缩小放大加载效果
-- infinite 无限循环
-- animation-fill-mode  这个 CSS 属性用来指定在动画执行之前和之后如何给动画的目标应用样式。其实我把它注释后没变化。
-- cubic-bezier 又称三次贝塞尔，主要是为 animation 生成速度曲线的函数 
-
----
-
-知识点：
-
-1. [transform](https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform)
-2. [animation](https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation)
-3. [:nth-child()](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-child)
-4. [animation-fill-mode](https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation-fill-mode)
-
-```css
-@keyframes scale {
-  0% {
-    transform: scale(1);
-    opacity: 1; }
   45% {
-    transform: scale(0.1);
+    -webkit-transform: scale(0.1);
+            transform: scale(0.1);
     opacity: 0.7; }
   80% {
-    transform: scale(1);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1; } }
+@keyframes scale {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1; }
+  45% {
+    -webkit-transform: scale(0.1);
+            transform: scale(0.1);
+    opacity: 0.7; }
+  80% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
     opacity: 1; } }
 
 .ball-pulse > div:nth-child(0) {
-  animation: scale 0.75s -0.36s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08); }
+  -webkit-animation: scale 0.75s -0.36s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+          animation: scale 0.75s -0.36s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08); }
 
 .ball-pulse > div:nth-child(1) {
-  animation: scale 0.75s -0.24s infinite }
+  -webkit-animation: scale 0.75s -0.24s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+          animation: scale 0.75s -0.24s infinite }
 
 .ball-pulse > div:nth-child(2) {
-  animation: scale 0.75s -0.12s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08); }
+  -webkit-animation: scale 0.75s -0.12s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+          animation: scale 0.75s -0.12s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08); }
 
 .ball-pulse > div:nth-child(3) {
-  animation: scale 0.75s 0s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08); }
+  -webkit-animation: scale 0.75s 0s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+          animation: scale 0.75s 0s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08); }
 
 .ball-pulse > div {
   background-color: #000;
@@ -65,43 +68,51 @@
   height: 15px;
   border-radius: 100%;
   margin: 2px;
-  animation-fill-mode: both;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
   display: inline-block; }
-```
+/* 弹跳加载-------------------------------------------------------------------------------------------
+ * CSS transform 属性允许你修改CSS视觉格式模型的坐标空间。使用它，元素可以被转换（translate）、旋转（rotate）、缩放（scale）、倾斜（skew）。
+ * ease-in-out 规定以慢速开始和结束的过渡效果 
+ */
 
-## 弹跳加载
-
-- CSS transform 属性允许你修改CSS视觉格式模型的坐标空间。使用它，元素可以被转换（translate）、旋转（rotate）、缩放（scale）、倾斜（skew）。
-- ease-in-out 规定以慢速开始和结束的过渡效果 
-
-
----
-
-### 知识点
-
-同上
-
-```css
+@-webkit-keyframes ball-pulse-sync {
+  33% {
+    -webkit-transform: translateY(10px);
+            transform: translateY(10px); }
+  66% {
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px); }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0); } }
 
 @keyframes ball-pulse-sync {
   33% {
-    transform: translateY(10px); }
+    -webkit-transform: translateY(10px);
+            transform: translateY(10px); }
   66% {
-    transform: translateY(-10px); }
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px); }
   100% {
-    transform: translateY(0); } }
+    -webkit-transform: translateY(0);
+            transform: translateY(0); } }
 
 .ball-pulse-sync > div:nth-child(0) {
-  animation: ball-pulse-sync 0.6s -0.21s infinite ease-in-out; }
+  -webkit-animation: ball-pulse-sync 0.6s -0.21s infinite ease-in-out;
+          animation: ball-pulse-sync 0.6s -0.21s infinite ease-in-out; }
 
 .ball-pulse-sync > div:nth-child(1) {
-  animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out; }
+  -webkit-animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out;
+          animation: ball-pulse-sync 0.6s -0.14s infinite ease-in-out; }
 
 .ball-pulse-sync > div:nth-child(2) {
-  animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out; }
+  -webkit-animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out;
+          animation: ball-pulse-sync 0.6s -0.07s infinite ease-in-out; }
 
 .ball-pulse-sync > div:nth-child(3) {
-  animation: ball-pulse-sync 0.6s 0s infinite ease-in-out; }
+  -webkit-animation: ball-pulse-sync 0.6s 0s infinite ease-in-out;
+          animation: ball-pulse-sync 0.6s 0s infinite ease-in-out; }
 
 .ball-pulse-sync > div {
   background-color: #000;
@@ -109,15 +120,9 @@
   height: 15px;
   border-radius: 100%;
   margin: 2px;
-  animation-fill-mode: both;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
   display: inline-block; }
-```
-
----
-
-### 还未看
-
-```css
 
 @-webkit-keyframes ball-scale {
   0% {
@@ -1939,7 +1944,3 @@
     -webkit-animation: bar-swing-container 2s cubic-bezier(0.91, 0.35, 0.12, 0.6) infinite;
             animation: bar-swing-container 2s cubic-bezier(0.91, 0.35, 0.12, 0.6) infinite;
     margin: 2px 2px 0; }
-
-```
-
-  
