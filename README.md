@@ -4,23 +4,132 @@
 
 [样式预览](https://unbrain.github.io/loaders-css/index.html)
 
-对兼容性的代码大多已删除，只留在重要部分。
-
-例如：
-
-```css
-/* 原本是：*/
-0% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    opacity: 1; }
-/* 修改为：*/
-0% {
-    transform: scale(1);
-    opacity: 1; }
-```
+看该项目的 `src/` 下面的资源可以看到是使用 `scss` 写的，有 30 中加载动画，分为三大类，`Dots`，  ``Lines` 以及 `Misc`。把该项目的源码看一遍，可以熟悉使用 `scss` 以及 `@keyframes` `animation` `transfrom` 等属性。
 
 ---
+
+## 起航
+
+`scss` 来源于 `ruby` 社区的 `sass` 但与 `sass` 关系并不大，它仅仅是有了些简单的方法来帮助人们快速地编写 `css`。
+
+[SASS用法指南](http://www.ruanyifeng.com/blog/2012/06/sass.html)
+
+[SCSS 与 Sass 异同](http://sass.bootcss.com/docs/scss-for-sass-users/)
+
+[node-sass](https://github.com/sass/node-sass)
+
+注意写 scss 多成嵌套的时候不要太多，不然就像回调地狱一样让人摸不到头
+
+### 定义了一个 delay 的函数 
+
+```scss
+@function delay($interval, $count, $index) {
+  @return ($index * $interval) - ($interval * $count);
+}
+```
+
+### 定义一些全局变量
+
+```scss
+@mixin global-bg() {
+  background-color: $primary-color;
+}
+
+@mixin global-animation() {
+  animation-fill-mode: both;
+}
+
+@mixin balls() {
+  @include global-bg();
+
+  width: $ball-size;
+  height: $ball-size;
+  border-radius: 100%;
+  margin: $margin;
+}
+
+@mixin lines() {
+  @include global-bg();
+
+  width: $line-width;
+  height: $line-height;
+  border-radius: 2px;
+  margin: $margin;
+}
+```
+### 全局变量的值
+
+```scss
+$primary-color: #fff !default;
+$ball-size: 15px !default;
+$margin: 2px !default;
+$line-height: 35px !default;
+$line-width: 4px !default;
+```
+
+### 主文件
+
+```scss
+/**
+ * Copyright (c) 2016 Connor Atherton
+ *
+ * All animations must live in their own file
+ * in the animations directory and be included
+ * here.
+ *
+ */
+
+/**
+ * Styles shared by multiple animations
+ */
+@import 'variables';
+@import 'mixins';
+
+/**
+ * Dots
+ */
+@import 'animations/ball-pulse';
+@import 'animations/ball-pulse-sync';
+@import 'animations/ball-scale';
+@import 'animations/ball-scale-random';
+@import 'animations/ball-rotate';
+@import 'animations/ball-clip-rotate';
+@import 'animations/ball-clip-rotate-pulse';
+@import 'animations/ball-clip-rotate-multiple';
+@import 'animations/ball-scale-ripple';
+@import 'animations/ball-scale-ripple-multiple';
+@import 'animations/ball-beat';
+@import 'animations/ball-scale-multiple';
+@import 'animations/ball-triangle-path';
+@import 'animations/ball-pulse-rise';
+@import 'animations/ball-grid-beat';
+@import 'animations/ball-grid-pulse';
+@import 'animations/ball-spin-fade-loader';
+@import 'animations/ball-spin-loader';
+@import 'animations/ball-zig-zag';
+@import 'animations/ball-zig-zag-deflect';
+
+/**
+ * Lines
+ */
+@import 'animations/line-scale';
+@import 'animations/line-scale-random';
+@import 'animations/line-scale-pulse-out';
+@import 'animations/line-scale-pulse-out-rapid';
+@import 'animations/line-spin-fade-loader';
+
+/**
+ * Misc
+ */
+@import 'animations/triangle-skew-spin';
+@import 'animations/square-spin';
+@import 'animations/pacman';
+@import 'animations/cube-transition';
+@import 'animations/semi-circle-spin';
+```
+
+
+
 
 ## 球脉冲
 
@@ -38,38 +147,41 @@
 3. [:nth-child()](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-child)
 4. [animation-fill-mode](https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation-fill-mode)
 
-```css
+​```css
 @keyframes scale {
   0% {
     transform: scale(1);
-    opacity: 1; }
+    opacity: 1;
+  }
   45% {
     transform: scale(0.1);
-    opacity: 0.7; }
+    opacity: 0.7;
+  }
   80% {
     transform: scale(1);
-    opacity: 1; } }
+    opacity: 1;
+  }
+}
 
-.ball-pulse > div:nth-child(0) {
-  animation: scale 0.75s -0.36s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08); }
+// mixins should be separated out
+@mixin ball-pulse($n: 3, $start: 1) {
+  @for $i from $start through $n {
+    > div:nth-child(#{$i}) {
+      animation: scale 0.75s delay(0.12s, $n, $i) infinite cubic-bezier(.2,.68,.18,1.08);
+    }
+  }
+}
 
-.ball-pulse > div:nth-child(1) {
-  animation: scale 0.75s -0.24s infinite }
+.ball-pulse {
+  @include ball-pulse();
 
-.ball-pulse > div:nth-child(2) {
-  animation: scale 0.75s -0.12s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08); }
-
-.ball-pulse > div:nth-child(3) {
-  animation: scale 0.75s 0s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08); }
-
-.ball-pulse > div {
-  background-color: #000;
-  width: 15px;
-  height: 15px;
-  border-radius: 100%;
-  margin: 2px;
-  animation-fill-mode: both;
-  display: inline-block; }
+  > div {
+    @include balls();
+    @include global-animation();
+    
+    display: inline-block;
+  }
+}
 ```
 
 ---
@@ -86,7 +198,7 @@
 
 同上
 
-```css
+​```css
 
 @keyframes ball-pulse-sync {
   33% {
