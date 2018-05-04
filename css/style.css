@@ -5,8 +5,18 @@
 }
 body{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     background-color: #ccc;
+}
+.loader-inner {
+    margin: 4em;
+}
+p, p > div{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 300px;
 }

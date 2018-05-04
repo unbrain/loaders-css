@@ -4,7 +4,7 @@
 
 [样式预览](https://unbrain.github.io/loaders-css/index.html)
 
-看该项目的 `src/` 下面的资源可以看到是使用 `scss` 写的，有 30 中加载动画，分为三大类，`Dots`，  ``Lines` 以及 `Misc`。把该项目的源码看一遍，可以熟悉使用 `scss` 以及 `@keyframes` `animation` `transfrom` 等属性。
+看该项目的 `src/` 下面的资源可以看到是使用 `scss` 写的，有 30 种加载动画，分为三大类，`Dots`，  ``Lines` 以及 `Misc`。把该项目的源码看一遍，可以熟悉使用 `scss` 以及 `@keyframes` `animation` `transfrom` 等属性。
 
 ---
 
@@ -41,7 +41,6 @@
 
 @mixin balls() {
   @include global-bg();
-
   width: $ball-size;
   height: $ball-size;
   border-radius: 100%;
@@ -50,7 +49,6 @@
 
 @mixin lines() {
   @include global-bg();
-
   width: $line-width;
   height: $line-height;
   border-radius: 2px;
@@ -67,7 +65,9 @@ $line-height: 35px !default;
 $line-width: 4px !default;
 ```
 
-### 主文件
+可以修改这些值来定制自己喜欢的样式
+
+主文件
 
 ```scss
 /**
@@ -130,8 +130,7 @@ $line-width: 4px !default;
 
 
 
-
-## 球脉冲
+## ball-pulse
 
 - 一个球缩小放大加载效果
 - infinite 无限循环
@@ -147,7 +146,10 @@ $line-width: 4px !default;
 3. [:nth-child()](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-child)
 4. [animation-fill-mode](https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation-fill-mode)
 
-​```css
+```scss
+@import '../variables';
+@import '../mixins';
+@import '../functions';
 @keyframes scale {
   0% {
     transform: scale(1);
@@ -162,7 +164,6 @@ $line-width: 4px !default;
     opacity: 1;
   }
 }
-
 // mixins should be separated out
 @mixin ball-pulse($n: 3, $start: 1) {
   @for $i from $start through $n {
@@ -178,13 +179,99 @@ $line-width: 4px !default;
   > div {
     @include balls();
     @include global-animation();
-    
     display: inline-block;
   }
 }
 ```
 
 ---
+
+## ball-grid-pulse
+
+- 大小从 1 -> 0.5 -> 1,透明度 1 -> 0.7 -> 1
+
+- both: 向前和向后填充模式都被应用
+
+```scss
+@import '../variables';
+@import '../mixins';
+
+@keyframes ball-grid-pulse {
+  0% {transform: scale(1);}
+  50% {transform: scale(0.5);opacity: 0.7;}
+  100% {transform: scale(1);opacity: 1;}}
+
+@mixin ball-grid-pulse($n:9) {
+  @for $i from 1 through $n {
+    > div:nth-child(#{$i}) {
+      animation-delay: ((random(100) / 100) - 0.2) + s;
+      animation-duration: ((random(100) / 100) + 0.6) + s;
+    }
+  }
+}
+
+.ball-grid-pulse {
+  @include ball-grid-pulse();
+  width: ($ball-size * 3) + $margin * 6;
+  > div {
+    @include balls();
+    @include global-animation();
+    display: inline-block;
+    float: left;
+    animation-name: ball-grid-pulse;
+    animation-iteration-count: infinite;
+    animation-delay: 0;
+  }
+}
+```
+
+---
+
+## ball-clip-rotate
+
+- 旋转 360
+
+- 现实上其实大小也变了，主要是 `rotate` 在这个项目多次出现，最后的 `rotate`  为
+
+  ```css
+  0% {transform: rotate(0deg) scale(1);}
+  50% {transform: rotate(180deg) scale(0.6);}
+  100% {transform: rotate(360deg) scale(1);}
+  ```
+
+- liner 线性渐变
+
+- infinite 规定动画应该无限次播放
+
+```scss
+@import '../variables';
+@import '../mixins';
+
+@keyframes rotate {
+  0% {transform: rotate(0deg);}
+  50% {transform: rotate(180deg);}
+  100% { transform: rotate(360deg);}}
+
+.ball-clip-rotate {
+  > div {
+    @include balls();
+    @include global-animation();
+    border: 2px solid $primary-color;
+    border-bottom-color: transparent;
+    height: 26px;
+    width: 26px;
+    background: transparent !important;
+    display: inline-block;
+    animation: rotate 0.75s 0s linear infinite;
+  }
+}
+```
+
+---
+
+
+
+
 
 ## 弹跳加载
 
@@ -198,7 +285,7 @@ $line-width: 4px !default;
 
 同上
 
-​```css
+```css
 
 @keyframes ball-pulse-sync {
   33% {
@@ -238,7 +325,7 @@ $line-width: 4px !default;
 - 修改大小缩放从 从 0 到 1
 - 修改透明度从 ０ 到 １
 
-```css
+​```css
 @keyframes ball-scale {
   0% {
     transform: scale(0); }
@@ -267,7 +354,7 @@ $line-width: 4px !default;
 - animation name 与上一个相同 只是增加延时来形成视觉差
 - 若觉的 div 太多 其实都能用 ：after ：before 来实现 
 
-```css
+​```css
 .ball-scale-random {
   width: 37px;
   height: 40px; }

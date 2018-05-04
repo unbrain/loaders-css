@@ -32,11 +32,13 @@
     'ball-scale-random': 3
   };
 
+
   var addDivs = function(n) {
     var arr = [];
     for (i = 1; i <= n; i++) {
       arr.push('<div></div>');
     }
+//    console.log(arr)
     return arr;
   };
 
@@ -51,9 +53,15 @@
   };
 
   $(function() {
+    $.each(divs, function (key, value) {
+      $('body').append('<p>'+key+'</p>')
+      $('body').append('<div class="loader-inner ' + key + '">')
+    })
+    console.log(1)
     $.each(divs, function(key, value) {
       $('.loader-inner.' + key).html(addDivs(value));
     })
   });
+
 
 }).call(window, window.$ || window.jQuery || window.Zepto);
