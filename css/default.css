@@ -3,20 +3,24 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    background-color: #ccc;
+    background-color: rgb(8, 8, 8);
 }
-.loader-inner {
-    margin: 4em;
-}
-p, p > div{
+
+.group {
     display: flex;
-    text-align: center;
-    justify-content: center;
     flex-direction: column;
+    width: 30%;
     height: 300px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+p{
+    color: aliceblue;
 }

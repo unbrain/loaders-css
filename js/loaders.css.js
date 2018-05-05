@@ -54,8 +54,10 @@
 
   $(function() {
     $.each(divs, function (key, value) {
-      $('body').append('<p>'+key+'</p>')
-      $('body').append('<div class="loader-inner ' + key + '">')
+      $('body').append('<div class="group"><p>' + key + '</p><div class="loader-inner ' + key + '"></div>')
+
+      // $('body').append('<p>'+key+'</p>')
+      // $('body').append('<div class="loader-inner ' + key + '">')
     })
     console.log(1)
     $.each(divs, function(key, value) {
